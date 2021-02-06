@@ -39,6 +39,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'accounts.apps.AccountsConfig',
     'django_filters',
+    'storages',
 
 ]
 
@@ -77,22 +78,46 @@ WSGI_APPLICATION = 'crm.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/3.1/ref/settings/#databases
 
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
-    }
-}
+# DATABASES = {
+#     'default': {
+#         'ENGINE': 'django.db.backends.sqlite3',
+#         'NAME': BASE_DIR / 'db.sqlite3',
+#     }
+# }
+
+# LOCALHOST POSTGRES DATABASE
+
 # DATABASES = {
 #     'default': {
 #         'ENGINE': 'django.db.backends.postgresql',
-#         'NAME': 'crm',
-#         'USER': 'crm',
-#         'PASSWORD': 'Nuklear123',
-#         'HOST': 'db',
+#         'NAME': 'DEMO_TEST',
+#         'USER': 'postgres',
+#         'PASSWORD': 'postgres',
+#         'HOST': 'localhost',
 #         'PORT': '5432',
 #     }
 # }
+
+# AWS POSTGRES DATABASE
+'''
+STEPS FOR DJANGO POSTGRESQL DATABASE + AWS RDS
+
+1 - Download Postgresql & PG Admin
+2 - Login to PG Admin & Create Database
+3 - Connect database to Django App & run migrations
+4 - Create database on AWS
+5 Connect to live AWS Database with PG admin & Django
+'''
+DATABASES = {
+    'default': {
+        'ENGINE': 'django.db.backends.postgresql',
+        'NAME': 'demo_1',
+        'USER': '************',
+        'PASSWORD': '**************',
+        'HOST': '**********************',
+        'PORT': '5432',
+    }
+}
 
 
 # Password validation
@@ -148,4 +173,36 @@ EMAIL_HOST = 'smtp.gmail.com'
 EMAIL_PORT = 587
 EMAIL_USE_TLS = True
 EMAIL_HOST_USER = 'some email'
-EMAIL_HOST_PASSWORD = 'some password'
+EMAIL_HOST_PASSWORD = '*************'
+
+
+#S3 BUCKETS CONFIG
+
+AWS_ACCESS_KEY_ID = '*******************'
+AWS_SECRETACCESS_KEY = '*******************'
+AWS_STORAGE_BUCKET_NAME = '*****************'
+
+AWS_S3_FILE_OVERWRITE = False
+AWS_DEFAULT_ACL = None
+DEFAULT_FILE_STORAGE = 'storages.backends.s3boto3.S3Boto3Storage'
+STATICFILES_STORAGE = 'storages.backends.s3boto3.S3StaticStorage'
+
+# The CORS configuration on AWS config
+'''
+[
+    {
+        "AllowedHeaders": [
+            "*"
+        ],
+        "AllowedMethods": [
+            "GET",
+            "PUT",
+            "POST"
+        ],
+        "AllowedOrigins": [
+            "*"
+        ],
+        "ExposeHeaders": []
+    }
+]
+'''
